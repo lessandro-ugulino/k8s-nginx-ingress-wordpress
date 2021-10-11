@@ -120,13 +120,13 @@ Running the below command in a couple of terminal windows, we can stress the env
 while true; do curl http://my-website.ugulino.com -v; echo; done
 ```
 
-As soon as the targert, 50% of the CPU used, was reached, the pods were created.
+As soon as the CPU will be consumed more than 50%, the pods will scale up.
 
 ![hpa_increase](./img/hpa_increase.png)
 
 ![hpa_pods](./img/hpa_pods.png)
 
-As soon as the CPU wasn't being consumed more than 50%, the pods were removed.
+As soon as the CPU will be consumed less than 50%, the pods will scale down.
 
 ![hpa_decrease](./img/hpa_decrease.png)
 
