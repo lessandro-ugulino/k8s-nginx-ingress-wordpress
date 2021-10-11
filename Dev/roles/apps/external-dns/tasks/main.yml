@@ -1,0 +1,16 @@
+- name: Convert Yaml template
+  become: false
+  template:
+    src: external-dns.yml.j2
+    dest: /tmp/external-dns.yml
+    mode: 0777
+
+- name: apply Yaml template
+  shell: kubectl apply -f /tmp/external-dns.yml >> external-dns.log
+  args:
+    chdir: $HOME
+    creates: external-dns.log
+
+- name: Pause for 30 seconds to External DNS be ready
+  pause:
+    seconds: 30

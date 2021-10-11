@@ -1,0 +1,12 @@
+- name: Convert Yaml template
+  become: false
+  template:
+    src: deploy-banana.yml.j2
+    dest: /tmp/deploy-banana.yml
+    mode: 0777
+
+- name: apply Yaml template
+  shell: kubectl apply -f /tmp/deploy-banana.yml >> deploy-banana.log
+  args:
+    chdir: $HOME
+    creates: deploy-banana.log

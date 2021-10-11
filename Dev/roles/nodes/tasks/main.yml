@@ -1,0 +1,42 @@
+- name: Grep hostname
+  shell: "curl http://169.254.169.254/latest/meta-data/local-hostname"
+  register: hostname
+
+- name: Set hostname
+  shell: hostnamectl set-hostname {{ hostname.stdout}}
+
+- name: Configure aws provider
+  lineinfile:
+    create: yes
+    path: /etc/default/kubelet
+    line: KUBELET_EXTRA_ARGS='--cloud-provider=aws'
+
+- name: create daemon.json file - cgroupdriver
+  copy:
+    content: '{"exec-opts": ["native.cgroupdriver=systemd"]}'
+    dest: /etc/docker/daemon.json
+
+- name: Restart service docker, in all cases, also issue daemon-reload to pick up config changes
+  systemd:
+    state: restarted
+    daemon_reload: yes
+    name: docker
+
+- name: Restart service kubelet, in all cases, also issue daemon-reload to pick up config changes
+  systemd:
+    state: restarted
+    daemon_reload: yes
+    name: kubelet
+
+- name: kubeadm register
+  shell: kubeadm reset -f >> reset.log #clean up local file system
+  args:
+    chdir: $HOME #where runs this
+    creates: reset.log
+
+- name: Join node to cluster
+  shell: "{{ hostvars[groups['master'][0]]['join_command'] }} >> node.log"
+  ignore_errors: yes
+  args:
+    chdir: $HOME
+    creates: node.log

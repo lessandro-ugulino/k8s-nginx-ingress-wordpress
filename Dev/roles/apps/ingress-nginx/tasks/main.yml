@@ -1,0 +1,16 @@
+- name: Convert Yaml template
+  become: false
+  template:
+    src: ingress-nginx-deploy.yml.j2
+    dest: /tmp/ingress-nginx-deploy.yml
+    mode: 0777
+
+- name: apply Yaml template
+  shell: kubectl apply -f /tmp/ingress-nginx-deploy.yml >> ingress-nginx-deploy.log
+  args:
+    chdir: $HOME
+    creates: ingress-nginx-deploy.log
+
+- name: Pause for 1 minute to Nginx Ingress be ready
+  pause:
+    minutes: 1

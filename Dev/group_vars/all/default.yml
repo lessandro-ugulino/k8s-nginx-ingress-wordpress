@@ -1,0 +1,6 @@
+externalDns:
+  iam_role: arn:aws:iam::${AWS::AccountId}:role/iam-role-k8s-lessandro-external-dns # update here if you changed the IAM Role name for the external DNS in modules/IAM/IAM.tf
+  domain: ugulino.com # Route 53 DNS Zone to be created the ELB record.
+
+ingressNginx:
+  domain_record: my-website.ugulino.com # Route 53 record to be used to access the applications.

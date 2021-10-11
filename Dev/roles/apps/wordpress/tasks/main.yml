@@ -1,0 +1,22 @@
+- name: Convert Volume Wordpress Yaml template
+  template:
+    src: volume-wd.yml.j2
+    dest: /tmp/volume-wd.yml
+    mode: 0777
+
+- name: apply Volume Wordpress template
+  shell: kubectl apply -f /tmp/volume-wd.yml >>  volume-wd.log
+  args:
+    chdir: $HOME
+    creates: volume-wd.log
+
+- name: Convert WordPress Deployment Yaml template
+  template:
+    src: wd.yml.j2
+    dest: /tmp/wd.yml
+    mode: 0777
+- name: apply WordPress Deployment template
+  shell: kubectl apply -f /tmp/wd.yml >> wd.log
+  args:
+    chdir: $HOME
+    creates: wd.log
