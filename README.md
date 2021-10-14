@@ -92,6 +92,9 @@ Banana website
 Ansible Deployment
 ![ansible](./img/ansible.png)
 
+ELB Ingress
+![ingress](./img/ingress.png)
+
 AWS Nginx Network Load Balancer
 ![elb](./img/elb.png)
 
