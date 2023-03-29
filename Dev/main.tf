@@ -51,8 +51,8 @@ module "my_ec2" {
   sgp_nodes_k8s_name        = "sgp-nodes-k8s-lessandro"
   sgp_nodes_k8s_description = "Nodes K8s Security Group"
 
-  sgp_rds_k8s_name        = "sgp-k8s-lessandro-rds"
-  sgp_rds_k8s_description = "Security Group for K8s RDS"
+  # sgp_rds_k8s_name        = "sgp-k8s-lessandro-rds"
+  # sgp_rds_k8s_description = "Security Group for K8s RDS"
 
   instance_profile_k8s_nodes_name  = module.my_iam.instance_profile_k8s_nodes_name
   instance_profile_k8s_master_name = module.my_iam.instance_profile_k8s_master_name
@@ -79,15 +79,15 @@ module "my_ec2" {
 
 }
 
-module "my_rds" {
-  source       = "../modules/RDS"
-  cluster_name = "kubernetes"
+# module "my_rds" {
+#   source       = "../modules/RDS"
+#   cluster_name = "kubernetes"
 
-  sgp_rds_k8s_id              = module.my_ec2.sgp_rds_k8s_id
-  rds_wordpress_db_group_name = "rds-k8s-wordpress-db-group"
+#   sgp_rds_k8s_id              = module.my_ec2.sgp_rds_k8s_id
+#   rds_wordpress_db_group_name = "rds-k8s-wordpress-db-group"
 
-  subnet_prv_id   = module.my_vpc.subnet_prv_id
-  subnet_prv_b_id = module.my_vpc.subnet_prv_b_id
+#   subnet_prv_id   = module.my_vpc.subnet_prv_id
+#   subnet_prv_b_id = module.my_vpc.subnet_prv_b_id
 
-  rds_wordpress_name = "k8s-lessandro-rds"
-}
+#   rds_wordpress_name = "k8s-lessandro-rds"
+# }

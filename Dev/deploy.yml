@@ -1,11 +1,11 @@
 ---
 - hosts: localhost
-  pre_tasks:
-    - name: Set fact RDS K8s
-      set_fact:
-        rds_password: "{{ lookup('aws_ssm', '/rds/k8s-lessandro/password') }}"
-      ignore_errors: true
-      no_log: true
+  # pre_tasks:
+  #   - name: Set fact RDS K8s
+  #     set_fact:
+  #       rds_password: "{{ lookup('aws_ssm', '/rds/k8s-lessandro/password') }}"
+  #     ignore_errors: true
+  #     no_log: true
 
 - hosts: all
   become: true
@@ -21,13 +21,12 @@
   become: true
   roles:
     - nodes
-
-- hosts: master
-  vars:
-    rds_password: "{{ hostvars['localhost']['rds_password'] }}"
-  become: true
-  roles:
-    - apps/external-dns
-    - apps/ingress-nginx
-    - apps/banana
-    - apps/wordpress
+#- hosts: master
+#  vars:
+#    rds_password: "{{ hostvars['localhost']['rds_password'] }}"
+#  become: true
+#  roles:
+#    - apps/external-dns
+#    - apps/ingress-nginx
+#    - apps/banana
+#   - apps/wordpress
